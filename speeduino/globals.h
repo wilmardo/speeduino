@@ -1009,6 +1009,8 @@ struct config6 {
 
   byte egoAlgorithm : 2; ///< EGO Algorithm - Simple, PID, No correction
   byte egoType : 2;      ///< EGO Sensor Type 0=Disabled/None, 1=Narrowband, 2=Wideband
+  byte egoSource : 2;      ///< EGO Sensor Source 0=O2 Pin, 1=CAN
+  uint16_t egoCANAddress;  // EGO CAN address
   byte boostEnabled : 1; ///< Boost control enabled 0 =off, 1 = on
   byte vvtEnabled : 1;   ///< 
   byte engineProtectType : 2;

@@ -498,13 +498,21 @@ void readO2()
   if(configPage6.egoType > 0)
   {
     unsigned int tempReading;
-    #if defined(ANALOG_ISR)
-      tempReading = fastMap1023toX(AnChannel[pinO2-A0], 511); //Get the current O2 value.
-    #else
-      tempReading = analogRead(pinO2);
-      tempReading = analogRead(pinO2);
-      //tempReading = fastMap1023toX(analogRead(pinO2), 511); //Get the current O2 value.
-    #endif
+    if(configPage6.egoSource == 0)  // O2 pin
+    {
+      #if defined(ANALOG_ISR)
+        tempReading = fastMap1023toX(AnChannel[pinO2-A0], 511); //Get the current O2 value.
+      #else
+        tempReading = analogRead(pinO2);
+        tempReading = analogRead(pinO2);
+        //tempReading = fastMap1023toX(analogRead(pinO2), 511); //Get the current O2 value.
+      #endif
+    }
+    else if (configPage6.egoSource == 1)  // CAN bus
+    {
+      /* setup CAN reading */
+      configPage6.egoMessageId;  // filter on this ID
+    }
     currentStatus.O2ADC = ADC_FILTER(tempReading, configPage4.ADCFILTER_O2, currentStatus.O2ADC);
     //currentStatus.O2 = o2CalibrationTable[currentStatus.O2ADC];
     currentStatus.O2 = table2D_getValue(&o2CalibrationTable, currentStatus.O2ADC);
